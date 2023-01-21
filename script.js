@@ -46,6 +46,8 @@ const scheduler = {
             let output = '';
             for (let i = 0; i < 3; i++) {
                 let hour = moment().hour(0 + i).format('h A');
+
+                // Create HTML elements
                 output += `<div class="row">`;
                 output += `<div class="col-12 d-flex description">`;
                 output += `<p class="hour">${hour}</p>`;
@@ -63,14 +65,27 @@ const scheduler = {
             const items = JSON.parse(localStorage.getItem('items'));
 
             let output = '';
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 24; i++) {
 
+                // Set calendar color
                 let hour = moment().hour(0 + i).format('h A');
+                let currentHour = moment().hour();
+                let calendarHour = Number(moment().hour(0 + i).format('H'));
+                let hourColor = '';
 
+                if (currentHour === calendarHour) {
+                    hourColor = 'present';
+                } else if (currentHour > calendarHour) {
+                    hourColor = 'past';
+                } else {
+                    hourColor = 'future';
+                }
+
+                // Create HTML elements
                 output += `<div class="row">`;
                 output += `<div class="col-12 d-flex description">`;
                 output += `<p class="hour">${hour}</p>`;
-                output += `<textarea type="text" class="past">${items[hour]}</textarea>`;
+                output += `<textarea type="text" class="${hourColor}">${items[hour]}</textarea>`;
                 output += `<div class="saveBtn d-flex align-items-center justify-content-center">`;
                 output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
                 output += `</div>`;
@@ -95,5 +110,10 @@ $(function () {
     scheduler.getCurrentDay(currentDayDisplay, 'MMMM Do, YYYY');
     scheduler.renderSchedule();
     scheduler.addToSchedule(save);
-
 });
+
+// let t1 = moment().hour();
+// let t2 = moment().hour(13).format('H');
+// console.log(t1, Number(t2));
+// console.log(t1 > t2);
+
