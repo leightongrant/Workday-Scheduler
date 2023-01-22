@@ -1,6 +1,8 @@
 // Create schuduler object
 const scheduler = {
     now: moment(),
+    startOfDay: 8,
+    endOfDay: 17,
     getCurrentDay (element, format) {
         element.text(this.now.format(format));
     },
@@ -39,8 +41,8 @@ const scheduler = {
 
     },
     renderSchedule () {
-        const startOfDay = 8;
-        const endOfDay = 22;
+        const startOfDay = this.startOfDay;
+        const endOfDay = this.endOfDay + 1;
         // If no data in local storage render blank schedule
         if (JSON.parse(localStorage.getItem('items') === null)) {
             this.createElements();
@@ -99,7 +101,7 @@ const scheduler = {
     }
 };
 
-// Capture HTML Elements using JQuery
+// HTML Elements
 const currentDayDisplay = $('#currentDay');
 const save = $('.calendar');
 const cont = $('.container');
@@ -112,9 +114,4 @@ $(function () {
     scheduler.renderSchedule();
     scheduler.addToSchedule(save);
 });
-
-// let t1 = moment().hour();
-// let t2 = moment().hour(13).format('H');
-// console.log(t1, Number(t2));
-// console.log(t1 > t2);
 
