@@ -15,9 +15,11 @@
 
 <body>
     <header class="jumbotron">
-        <h1 class="display-3">Work Day Scheduler</h1>
-        <p class="lead">A simple calendar app for scheduling your work day</p>
-        <p id="currentDay" class="lead"></p>
+        <div class="header-overlay">
+            <h1 class="display-3">Work Day Scheduler</h1>
+            <p class="lead">A simple calendar app for scheduling your work day</p>
+            <p id="currentDay" class="lead"></p>
+        </div>
     </header>
     <main>
         <!-- Timeblocks go here -->
@@ -27,7 +29,9 @@
         </section>
     </main>
     <footer class="footer">
-        <p class="text-center">©2023, Leighton Grant</p>
+        <div class="overlay">
+            <p class="text-center">©2023, Leighton Grant</p>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -12,6 +12,8 @@ textarea {
     border-left: 1px solid black;
     padding: 10px;
     width: 100%;
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .jumbotron {
@@ -49,17 +51,17 @@ textarea {
 
 .past {
     background-color: #d3d3d3;
-    color: white;
+    color: #000000;
 }
 
 .present {
     background-color: #ff6961;
-    color: white;
+    color: #000000;
 }
 
 .future {
     background-color: #77dd77;
-    color: white;
+    color: #000000;
 }
 
 .saveBtn {
@@ -69,10 +71,63 @@ textarea {
     background-color: #06aed5;
     color: white;
     width: 100px;
+    font-size: 20px;
 }
 
 .saveBtn i:hover {
-    font-size: 20px;
+    font-size: 30px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 5px solid #06aed5;
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+}
+
+footer {
+    border-top: 5px solid #06aed5;
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-position: center;
+    font-weight: 900;
+    color: #ffffff;
+}
+
+main {
+    padding: 50px 0;
+}
+
+#currentDay {
+    background: #fff;
+    display: inline-block;
+    padding: 20px;
+    color: #06aed5;
+    font-weight: bolder;
+    border: 3px dotted #06aed5;
+    border-radius: 0px;
+}
+
+.overlay {
+    background: black;
+    position: relative;
+    height: 100px;
+    padding: 25px 0;
+    opacity: 0.6;
+}
+
+.header-overlay {
+    opacity: 0.6;
+    background: black;
+    color: white;
+    padding: 25px 10px
+}
+
+.header-overlay>* {
+    opacity: 1;
 }
