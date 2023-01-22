@@ -34,17 +34,18 @@ const scheduler = {
                 items[currentTime] = textIn.trim();
                 localStorage.setItem('items', JSON.stringify(items));
             }
+            location.reload();
         });
-
-        // TODO: check input before storing
 
     },
     renderSchedule () {
+        const startOfDay = 8;
+        const endOfDay = 22;
         // If no data in local storage render blank schedule
         if (JSON.parse(localStorage.getItem('items') === null)) {
             this.createElements();
             let output = '';
-            for (let i = 0; i < 3; i++) {
+            for (let i = startOfDay; i < endOfDay; i++) {
                 let hour = moment().hour(0 + i).format('h A');
 
                 // Create HTML elements
@@ -65,7 +66,7 @@ const scheduler = {
             const items = JSON.parse(localStorage.getItem('items'));
 
             let output = '';
-            for (let i = 0; i < 24; i++) {
+            for (let i = startOfDay; i < endOfDay; i++) {
 
                 // Set calendar color
                 let hour = moment().hour(0 + i).format('h A');
