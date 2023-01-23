@@ -40,6 +40,18 @@ const scheduler = {
         });
 
     },
+    colorCalender (offset) {
+        let currentHour = moment().hour();
+        let calendarHour = Number(moment().hour(0 + offset).format('H'));
+
+        if (currentHour === calendarHour) {
+            return 'present';
+        } else if (currentHour > calendarHour) {
+            return 'past';
+        } else {
+            return 'future';
+        }
+    },
     renderSchedule () {
         const startOfDay = this.startOfDay;
         const endOfDay = this.endOfDay + 1;
@@ -51,42 +63,28 @@ const scheduler = {
             let output = '';
             for (let i = startOfDay; i < endOfDay; i++) {
                 let hour = moment().hour(0 + i).format('h A');
-
+                // Color Calendar
+                let hourColor = this.colorCalender(i);
                 // Create HTML elements
                 output += `<div class="row">`;
                 output += `<div class="col-12 d-flex description">`;
                 output += `<p class="hour">${hour}</p>`;
-                output += `<textarea type="text" class="past"></textarea>`;
+                output += `<textarea type="text" class="${hourColor}"></textarea>`;
                 output += `<div class="saveBtn d-flex align-items-center justify-content-center">`;
                 output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
                 output += `</div>`;
                 output += `</div>`;
-
-
             }
             $(output).appendTo(cont);
 
         } else {
             // Render data from local storage
             const items = JSON.parse(localStorage.getItem('items'));
-
             let output = '';
             for (let i = startOfDay; i < endOfDay; i++) {
-
-                // Set calendar color
                 let hour = moment().hour(0 + i).format('h A');
-                let currentHour = moment().hour();
-                let calendarHour = Number(moment().hour(0 + i).format('H'));
-                let hourColor = '';
-
-                if (currentHour === calendarHour) {
-                    hourColor = 'present';
-                } else if (currentHour > calendarHour) {
-                    hourColor = 'past';
-                } else {
-                    hourColor = 'future';
-                }
-
+                // Set calendar color                
+                let hourColor = this.colorCalender(i);
                 // Create HTML elements
                 output += `<div class="row">`;
                 output += `<div class="col-12 d-flex description">`;
@@ -96,7 +94,6 @@ const scheduler = {
                 output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
                 output += `</div>`;
                 output += `</div>`;
-
             }
 
             $(output).appendTo(cont);
