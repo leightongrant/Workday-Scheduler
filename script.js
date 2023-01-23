@@ -24,8 +24,7 @@ const scheduler = {
             items[currentTime] = textIn.trim();
             localStorage.setItem('items', JSON.stringify(items));
 
-            //TODO: add feedback
-
+            // Save feedback
             $(this).attr('class', 'check fa fa-check');
             setTimeout(() => {
                 $(this).attr('class', 'fas fa-save');
@@ -110,3 +109,23 @@ $(function () {
 });
 
 
+Object.keys(JSON.parse(localStorage.getItem('items'))).forEach(element => {
+    let option = $('<option>');
+    option.attr('value', element);
+    option.text(element);
+    $(option).appendTo($('#startOfDay'));
+});
+
+$('#startOfDay').on('mouseup', function () {
+
+    let times = Object.keys(JSON.parse(localStorage.getItem('items')));
+    let ndx = times.indexOf($(this).val());
+
+    for (let i = ndx; i < times.length; i++) {
+        let option = $('<option>');
+        option.attr('value', times[i]);
+        option.text(times[i]);
+        $(option).appendTo($('#endOfDay'));
+    }
+
+});
