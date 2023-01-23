@@ -25,16 +25,26 @@ const scheduler = {
             localStorage.setItem('items', JSON.stringify(items));
 
             //TODO: add feedback
-        });
 
+            $(this).attr('class', 'check fa fa-check');
+            setTimeout(() => {
+                $(this).attr('class', 'fas fa-save');
+            }, 2000);
+
+
+
+
+        });
     },
+
     colorCalender (offset) {
         let currentHour = moment().hour();
         let calendarHour = Number(moment().hour(0 + offset).format('H'));
 
         if (currentHour === calendarHour) {
             return 'present';
-        } else if (currentHour > calendarHour) {
+        }
+        else if (currentHour > calendarHour) {
             return 'past';
         } else {
             return 'future';

@@ -144,3 +144,8 @@ main {
     background: url(./images/main-bg-morning.jpg);
     background-size: cover;
 }
+
+.check {
+    color: limegreen;
+
+}
