@@ -43,9 +43,11 @@ const scheduler = {
     renderSchedule () {
         const startOfDay = this.startOfDay;
         const endOfDay = this.endOfDay + 1;
+        const items = JSON.parse(localStorage.getItem('items'));
+
         // If no data in local storage render blank schedule
-        if (JSON.parse(localStorage.getItem('items') === null)) {
-            this.createElements();
+        if (items === null) {
+
             let output = '';
             for (let i = startOfDay; i < endOfDay; i++) {
                 let hour = moment().hour(0 + i).format('h A');
@@ -60,8 +62,9 @@ const scheduler = {
                 output += `</div>`;
                 output += `</div>`;
 
-                $(output).appendTo(cont);
+
             }
+            $(output).appendTo(cont);
 
         } else {
             // Render data from local storage

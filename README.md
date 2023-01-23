@@ -8,7 +8,7 @@
 
 ## Description
 
-App Link: [(Open JavaScript Quiz)](https://misterouija.github.io/Workday-Scheduler/)
+App Link: [(Open Workday Schedule App)](https://misterouija.github.io/Workday-Scheduler/)
 
 A simple calendar application that runs in the browser. It allows a user to save planned events for each hour of the day.
 
