@@ -36,7 +36,8 @@ textarea {
 .row {
     white-space: pre-wrap;
     height: 60px;
-    border-top: 1px solid white;
+    /*border-top: 1px solid white;*/
+    margin-bottom: 1px
 }
 
 .hour {
@@ -47,6 +48,13 @@ textarea {
     font-weight: bold;
     text-align: right;
     padding: 10px 5px;
+    background: transparent
+}
+
+.past,
+.present,
+.future {
+    opacity: 0.8;
 }
 
 .past {
@@ -118,11 +126,11 @@ main {
     position: relative;
     height: 100px;
     padding: 25px 0;
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 .header-overlay {
-    opacity: 0.6;
+    opacity: 0.9;
     background: black;
     color: white;
     padding: 25px 10px
@@ -130,4 +138,9 @@ main {
 
 .header-overlay>* {
     opacity: 1;
+}
+
+main {
+    background: url(./images/main-bg-morning.jpg);
+    background-size: cover;
 }
