@@ -13,30 +13,18 @@ const scheduler = {
     addToSchedule (element) {
         // Event delegation
         element.on('click', 'i', function () {
-            // Gets save button
+            // Gets current time
             const currentTime = $(this).parent().parent().children('p.hour').text();
-            // Gets textarea
+            // Gets textarea value
             const textIn = $(this).parent().parent().children('textarea').val();
+            // Gets data from storage        
+            const items = JSON.parse(localStorage.getItem('items'));
 
-            // Check if items already in local storage
+            // Adds new item to storage
+            items[currentTime] = textIn.trim();
+            localStorage.setItem('items', JSON.stringify(items));
 
-            if (JSON.parse(localStorage.getItem('items') === null)) {
-                const items = {};
-                // creates and object 
-                for (let i = 0; i < 24; i++) {
-                    let hour = moment().hour(0 + i).format('h A');
-                    items[hour] = '';
-                }
-                // Add item to storage
-                items[currentTime] = textIn.trim();
-                localStorage.setItem('items', JSON.stringify(items));
-            } else {
-                // Get items from storage if already exist and adds new item
-                const items = JSON.parse(localStorage.getItem('items'));
-                items[currentTime] = textIn.trim();
-                localStorage.setItem('items', JSON.stringify(items));
-            }
-            location.reload();
+            //TODO: add feedback
         });
 
     },
@@ -52,59 +40,55 @@ const scheduler = {
             return 'future';
         }
     },
-    renderSchedule () {
+    createElements () {
+        const items = JSON.parse(localStorage.getItem('items'));
         const startOfDay = this.startOfDay;
         const endOfDay = this.endOfDay + 1;
-        const items = JSON.parse(localStorage.getItem('items'));
 
+        let output = '';
+        for (let i = startOfDay; i < endOfDay; i++) {
+            let hour = moment().hour(0 + i).format('h A');
+            // Call method to add color to Calendar
+            let hourColor = this.colorCalender(i);
+            // Create HTML elements
+            output += `<div class="row">`;
+            output += `<div class="col-12 d-flex description">`;
+            output += `<p class="hour">${hour}</p>`;
+            output += `<textarea type="text" class="${hourColor}">${items[hour]}</textarea>`;
+            output += `<div class="saveBtn d-flex align-items-center justify-content-center">`;
+            output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
+            output += `</div>`;
+            output += `</div>`;
+        }
+        $(output).appendTo(calendarDiv);
+    },
+    renderSchedule () {
         // If no data in local storage render blank schedule
-        if (items === null) {
-
-            let output = '';
-            for (let i = startOfDay; i < endOfDay; i++) {
+        if (JSON.parse(localStorage.getItem('items') === null)) {
+            const items = {};
+            // creates and object 
+            for (let i = 0; i < 24; i++) {
                 let hour = moment().hour(0 + i).format('h A');
-                // Color Calendar
-                let hourColor = this.colorCalender(i);
-                // Create HTML elements
-                output += `<div class="row">`;
-                output += `<div class="col-12 d-flex description">`;
-                output += `<p class="hour">${hour}</p>`;
-                output += `<textarea type="text" class="${hourColor}"></textarea>`;
-                output += `<div class="saveBtn d-flex align-items-center justify-content-center">`;
-                output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
-                output += `</div>`;
-                output += `</div>`;
+                items[hour] = '';
             }
-            $(output).appendTo(cont);
+            // Add item to storage
+            localStorage.setItem('items', JSON.stringify(items));
+
+            // render elements from local storage
+            this.createElements();
 
         } else {
-            // Render data from local storage
-            const items = JSON.parse(localStorage.getItem('items'));
-            let output = '';
-            for (let i = startOfDay; i < endOfDay; i++) {
-                let hour = moment().hour(0 + i).format('h A');
-                // Set calendar color                
-                let hourColor = this.colorCalender(i);
-                // Create HTML elements
-                output += `<div class="row">`;
-                output += `<div class="col-12 d-flex description">`;
-                output += `<p class="hour">${hour}</p>`;
-                output += `<textarea type="text" class="${hourColor}">${items[hour]}</textarea>`;
-                output += `<div class="saveBtn d-flex align-items-center justify-content-center">`;
-                output += `<i class="fas fa-save" id="save-${i}"></i></div>`;
-                output += `</div>`;
-                output += `</div>`;
-            }
-
-            $(output).appendTo(cont);
-        }
+            // Render elements from local storage
+            this.createElements();
+        };
     }
 };
+
 
 // HTML Elements
 const currentDayDisplay = $('#currentDay');
 const save = $('.calendar');
-const cont = $('.container');
+const calendarDiv = $('.calendar');
 
 
 
@@ -114,4 +98,5 @@ $(function () {
     scheduler.renderSchedule();
     scheduler.addToSchedule(save);
 });
+
 
