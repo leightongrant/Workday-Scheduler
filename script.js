@@ -1,7 +1,7 @@
 // Create schuduler object
 const scheduler = {
     now: moment(),
-    startOfDay: 8,
+    startOfDay: 9,
     endOfDay: 17,
     getCurrentDay (element, format) {
         element.text(this.now.format(format));
