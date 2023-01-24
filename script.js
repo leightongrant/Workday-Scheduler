@@ -180,11 +180,12 @@ $(function () {
         event.preventDefault();
         let st = startTimes.indexOf($('#startOfDay').val());
         let hrs = Number($('#hoursInDay').val()) + Number(st);
-        scheduler.saveStartOfDay(st, hrs);
+        scheduler.saveStartOfDay(st, hrs - 1);
         location.reload();
     });
 
-    $('#clearSchedule').on('click', function () {
+    $('#clearSchedule').on('click', function (event) {
+        event.preventDefault();
         scheduler.removeFromStorage('items');
         scheduler.removeFromStorage('startOfDay');
         location.reload();

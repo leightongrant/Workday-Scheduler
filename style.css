@@ -151,3 +151,22 @@ main {
     color: limegreen;
 
 }
+
+#start-time {
+    margin-bottom: 30px
+}
+
+.time-wrapper select {
+    width: 100px;
+    margin-bottom: 15px
+}
+
+.btn {
+    background: #06aed5;
+    width: 150px;
+    color: white
+}
+
+.btn:hover {
+    background: #59aed5;
+}
