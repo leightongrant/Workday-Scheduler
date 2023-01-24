@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="style.css" />
     <title>Work Day Scheduler</title>
 </head>
@@ -22,14 +23,24 @@
         </div>
     </header>
     <main>
+        <div id="dialog-confirm" title="Update your shedule hours?" class="hide">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Your hours will
+                be updated. Are you sure?</p>
+        </div>
+        <div id="dialog-confirm-clear" title="Clear your shedule?" class="hide">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Your shedule will
+                be cleared and reset to 9AM - 5PM. Are you sure?</p>
+        </div>
         <!-- Timeblocks go here -->
         <section class="time-block">
+            <div class="container">
+                <h5>Choose when to start your day and how many hours you'd like to add.</h5>
+                <p>(The default is 9AM - 5PM)</p>
+                <hr>
+            </div>
             <div class="container" id="start-time">
                 <form action="">
                     <div class="time-wrapper">
-                        <h4>Choose when to start your day and how many hours you'd like to add.</h4>
-                        <p>(The default is 9AM to 5PM)</p>
-                        <hr>
                         <div id="startTime">
                             <label for="start">What time would you like to start your day: </label>
                             <select name="start" id="startOfDay">
@@ -42,13 +53,11 @@
                         </div>
                     </div>
                     <br>
-                    <input type="submit" value="Save Schedule" id="setStart" class="btn">
+                    <input type="submit" value="Update Hours" id="setStart" class="btn">
                     <input type="submit" value="Clear Schedule" id="clearSchedule" class="btn">
                 </form>
-
             </div>
-            <div class="container calendar">
-            </div>
+            <div class="container calendar"></div>
         </section>
     </main>
     <footer class="footer">
@@ -58,6 +67,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="script.js"></script>
 </body>

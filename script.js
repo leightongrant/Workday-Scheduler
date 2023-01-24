@@ -178,18 +178,53 @@ $(function () {
 
     $('form').on('submit', function (event) {
         event.preventDefault();
-        let st = startTimes.indexOf($('#startOfDay').val());
-        let hrs = Number($('#hoursInDay').val()) + Number(st);
-        scheduler.saveStartOfDay(st, hrs - 1);
-        location.reload();
+        $("#dialog-confirm").dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Yes": function () {
+                    $(this).dialog("close");
+
+                    let st = startTimes.indexOf($('#startOfDay').val());
+                    let hrs = Number($('#hoursInDay').val()) + Number(st);
+                    scheduler.saveStartOfDay(st, hrs - 1);
+                    $('.update-time').on('click', function () {
+                        $('#start-time').attr('class', 'container hide');
+                    });
+
+                    location.reload();
+
+
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
     });
 
     $('#clearSchedule').on('click', function (event) {
         event.preventDefault();
-        scheduler.removeFromStorage('items');
-        scheduler.removeFromStorage('startOfDay');
-        location.reload();
+        $("#dialog-confirm-clear").dialog({
+            resizable: false,
+            height: "auto",
+            width: 400,
+            modal: true,
+            buttons: {
+                "Yes": function () {
+                    $(this).dialog("close");
+                    scheduler.removeFromStorage('items');
+                    scheduler.removeFromStorage('startOfDay');
+                    location.reload();
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+
     });
-
-
 });
