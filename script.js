@@ -2,13 +2,22 @@
 const scheduler = {
     now: moment(),
     startOfDay: 9,
-    endOfDay: 17,
+    hoursInDay: 17,
     getCurrentDay (element, format) {
         element.text(this.now.format(format));
     },
     getDaysInMonth () {
         let currentMonthString = this.now.format().slice(0, 7);
         return moment(currentMonthString, "YYYY-MM").daysInMonth();
+    },
+    removeFromStorage (name) {
+        localStorage.removeItem(name);
+    },
+    getFromLocalStorage (name) {
+        return JSON.parse(localStorage.getItem(name));
+    },
+    saveStartOfDay (st = 9, hrs = 17) {
+        localStorage.setItem('startOfDay', JSON.stringify({ start: st, hours: hrs }));
     },
     addToSchedule (element) {
         // Event delegation
@@ -29,10 +38,6 @@ const scheduler = {
             setTimeout(() => {
                 $(this).attr('class', 'fas fa-save');
             }, 2000);
-
-
-
-
         });
     },
 
@@ -52,10 +57,10 @@ const scheduler = {
     createElements () {
         const items = JSON.parse(localStorage.getItem('items'));
         const startOfDay = this.startOfDay;
-        const endOfDay = this.endOfDay + 1;
+        const hoursInDay = this.hoursInDay + 1;
 
         let output = '';
-        for (let i = startOfDay; i < endOfDay; i++) {
+        for (let i = startOfDay; i < hoursInDay; i++) {
             let hour = moment().hour(0 + i).format('h A');
             // Call method to add color to Calendar
             let hourColor = this.colorCalender(i);
@@ -72,10 +77,22 @@ const scheduler = {
         $(output).appendTo(calendarDiv);
     },
     renderSchedule () {
+
+        // Save start of day to local storage
+        let startDayItems = this.getFromLocalStorage('startOfDay');
+
+        if (startDayItems === null) {
+            this.saveStartOfDay();
+        } else {
+            this.startOfDay = startDayItems.start;
+            this.hoursInDay = startDayItems.hours;
+        }
+
         // If no data in local storage render blank schedule
-        if (JSON.parse(localStorage.getItem('items') === null)) {
+        let calendarItems = this.getFromLocalStorage('items');
+        if (JSON.parse(calendarItems === null)) {
             const items = {};
-            // creates and object 
+            // creates an object 
             for (let i = 0; i < 24; i++) {
                 let hour = moment().hour(0 + i).format('h A');
                 items[hour] = '';
@@ -90,6 +107,9 @@ const scheduler = {
             // Render elements from local storage
             this.createElements();
         };
+
+
+
     }
 };
 
@@ -108,24 +128,62 @@ $(function () {
     scheduler.addToSchedule(save);
 });
 
+function renderStartTime () {
+    const items = {};
+    // creates an object 
+    for (let i = 0; i < 24; i++) {
+        let hour = moment().hour(0 + i).format('h A');
+        items[hour] = '';
+    }
+    startTimes = Object.keys(items);
 
-Object.keys(JSON.parse(localStorage.getItem('items'))).forEach(element => {
-    let option = $('<option>');
-    option.attr('value', element);
-    option.text(element);
-    $(option).appendTo($('#startOfDay'));
+    startTimes.forEach(hour => {
+        let option = $('<option>');
+        option.attr('value', hour);
+        option.text(hour);
+        $(option).appendTo($('#startOfDay'));
+
+    });
+
+    startTimes.filter(hour => {
+        if (startTimes.indexOf(hour) > 0) {
+            let option = $('<option>');
+            option.attr('value', startTimes.indexOf(hour));
+            option.text(startTimes.indexOf(hour));
+            $(option).appendTo($('#hoursInDay'));
+        }
+
+    });
+}
+
+renderStartTime();
+
+$('#startOfDay').on('mouseleave', function () {
+    let selectedTime = $(this).val();
+    let startHour = startTimes.indexOf(selectedTime);
+    let hoursRemaining = 23 - startHour;
+
+    $('#hoursInDay').html('');
+
+    for (let i = 1; i < hoursRemaining + 1; i++) {
+        let option = $('<option>');
+        option.attr('value', i);
+        option.text(i);
+        $(option).appendTo($('#hoursInDay'));
+    };
+
 });
 
-$('#startOfDay').on('mouseup', function () {
+$('form').on('submit', function (event) {
+    event.preventDefault();
+    let st = startTimes.indexOf($('#startOfDay').val());
+    let hrs = Number($('#hoursInDay').val()) + Number(st);
+    scheduler.saveStartOfDay(st, hrs);
+    location.reload();
+});
 
-    let times = Object.keys(JSON.parse(localStorage.getItem('items')));
-    let ndx = times.indexOf($(this).val());
-
-    for (let i = ndx; i < times.length; i++) {
-        let option = $('<option>');
-        option.attr('value', times[i]);
-        option.text(times[i]);
-        $(option).appendTo($('#endOfDay'));
-    }
-
+$('#clearSchedule').on('click', function () {
+    scheduler.removeFromStorage('items');
+    scheduler.removeFromStorage('startOfDay');
+    location.reload();
 });

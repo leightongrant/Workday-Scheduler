@@ -28,19 +28,22 @@
                 <form action="">
                     <div class="time-wrapper">
                         <div id="startTime">
-                            <label for="start">Choose start time: </label>
+                            <label for="start">What time would you like to start your day: </label>
                             <select name="start" id="startOfDay">
                             </select>
                         </div>
                         <div id="endTime">
-                            <label for="end">Choose end time: </label>
-                            <select name="end" id="endOfDay">
+                            <label for="end">How many hours would you like to add: </label>
+                            <select name="end" id="hoursInDay">
                             </select>
                         </div>
                     </div>
                     <br><br>
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Set Hours" id="setStart">
                 </form>
+                <div class="clearSchedule">
+                    <input type="submit" value="Clear Schedule" id="clearSchedule">
+                </div>
 
             </div>
             <div class="container calendar">
