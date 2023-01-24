@@ -126,9 +126,9 @@ $(function () {
     scheduler.getCurrentDay(currentDayDisplay, 'MMMM Do, YYYY');
     scheduler.renderSchedule();
     scheduler.addToSchedule(save);
-});
 
-function renderStartTime () {
+
+
     const items = {};
     // creates an object 
     for (let i = 0; i < 24; i++) {
@@ -154,36 +154,41 @@ function renderStartTime () {
         }
 
     });
-}
 
-renderStartTime();
 
-$('#startOfDay').on('mouseleave', function () {
-    let selectedTime = $(this).val();
-    let startHour = startTimes.indexOf(selectedTime);
-    let hoursRemaining = 23 - startHour;
+    $('#startOfDay').on('mouseleave', function () {
+        let selectedTime = $(this).val();
+        let startHour = startTimes.indexOf(selectedTime);
+        let hoursRemaining = 23 - startHour + 1;
 
-    $('#hoursInDay').html('');
+        $('#hoursInDay').html('');
 
-    for (let i = 1; i < hoursRemaining + 1; i++) {
-        let option = $('<option>');
-        option.attr('value', i);
-        option.text(i);
-        $(option).appendTo($('#hoursInDay'));
-    };
+        for (let i = 1; i < hoursRemaining + 1; i++) {
+            if (i === 24) {
+                break;
+            } else {
+                let option = $('<option>');
+                option.attr('value', i);
+                option.text(i);
+                $(option).appendTo($('#hoursInDay'));
+            }
+        };
 
-});
+    });
 
-$('form').on('submit', function (event) {
-    event.preventDefault();
-    let st = startTimes.indexOf($('#startOfDay').val());
-    let hrs = Number($('#hoursInDay').val()) + Number(st);
-    scheduler.saveStartOfDay(st, hrs);
-    location.reload();
-});
+    $('form').on('submit', function (event) {
+        event.preventDefault();
+        let st = startTimes.indexOf($('#startOfDay').val());
+        let hrs = Number($('#hoursInDay').val()) + Number(st);
+        scheduler.saveStartOfDay(st, hrs);
+        location.reload();
+    });
 
-$('#clearSchedule').on('click', function () {
-    scheduler.removeFromStorage('items');
-    scheduler.removeFromStorage('startOfDay');
-    location.reload();
+    $('#clearSchedule').on('click', function () {
+        scheduler.removeFromStorage('items');
+        scheduler.removeFromStorage('startOfDay');
+        location.reload();
+    });
+
+
 });
